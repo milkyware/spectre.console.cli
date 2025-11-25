@@ -1,3 +1,5 @@
+using static Spectre.Console.Cli.CliConstants;
+
 namespace Spectre.Console.Cli.Help;
 
 /// <summary>
@@ -37,8 +39,11 @@ public class HelpProvider : IHelpProvider
     private sealed class HelpArgument
     {
         public string Name { get; }
+
         public int Position { get; set; }
+
         public bool Required { get; }
+
         public string? Description { get; }
 
         private HelpArgument(string name, int position, bool required, string? description)
@@ -62,11 +67,17 @@ public class HelpProvider : IHelpProvider
     private sealed class HelpOption
     {
         public string? Short { get; }
+
         public string? Long { get; }
+
         public string? Value { get; }
+
         public bool? ValueIsOptional { get; }
+
         public bool IsRequired { get; }
+
         public string? Description { get; }
+
         public object? DefaultValue { get; }
 
         private HelpOption(
@@ -156,6 +167,7 @@ public class HelpProvider : IHelpProvider
         result.AddRange(GetHeader(model, command));
         result.AddRange(GetDescription(model, command));
         result.AddRange(GetUsage(model, command));
+        result.AddRange(GetExitCodes(model, command));
         result.AddRange(GetExamples(model, command));
         result.AddRange(GetArguments(model, command));
         result.AddRange(GetOptions(model, command));
@@ -367,6 +379,34 @@ public class HelpProvider : IHelpProvider
         }
 
         return Array.Empty<IRenderable>();
+    }
+
+    public virtual IEnumerable<IRenderable> GetExitCodes(ICommandModel model, ICommandInfo? command)
+    {
+        var exitCodes = command?.ExitCodes;
+        if (exitCodes!.Any())
+            return Enumerable.Empty<IRenderable>();
+
+        var result = new List<IRenderable>();
+        {
+            NewComposer().LineBreak().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"{_resources.ExitCodes}:")
+                .LineBreak();
+        }
+
+        var grid = new Grid();
+        grid.AddColumn(new GridColumn { Padding = new Padding(4, 4), NoWrap = true });
+        grid.AddColumn(new GridColumn { Padding = new Padding(0, 0) });
+
+        foreach (var exitCode in exitCodes)
+        {
+            grid.AddRow(
+                NewComposer().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"<{exitCode.Key}>"),
+                NewComposer().Text(NormalizeDescription(exitCode.Value)));
+        }
+
+        result.Add(grid);
+
+        return result;
     }
 
     /// <summary>
