@@ -39,4 +39,9 @@ public interface ICommandInfo : ICommandContainer
     /// Gets the parent command, if any.
     /// </summary>
     ICommandInfo? Parent { get; }
+
+    /// <summary>
+    /// Gets the exit codes associated with the command.
+    /// </summary>
+    IDictionary<int, string> ExitCodes { get; }
 }
