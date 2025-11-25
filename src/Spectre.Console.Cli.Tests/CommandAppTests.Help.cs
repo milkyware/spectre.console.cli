@@ -968,6 +968,24 @@ public sealed partial class CommandAppTests
         }
 
         [Fact]
+        [Expectation("Default_ExitCodes")]
+        public Task Should_Output_Exit_Codes_Defined_On_Root()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.SetDefaultCommand<DogCommand>();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp");
+                // All root exit codes should be shown
+            });
+            // When
+            var result = fixture.Run("--help");
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
         [Expectation("NoDescription")]
         public Task Should_Not_Show_Truncated_Command_Table_If_Commands_Are_Missing_Description()
         {
