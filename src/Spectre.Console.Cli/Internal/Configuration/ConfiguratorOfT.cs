@@ -22,6 +22,11 @@ internal sealed class Configurator<TSettings> : IUnsafeBranchConfigurator, IConf
         _command.Examples.Add(args);
     }
 
+    public void AddExitCode(int exitCode, string description)
+    {
+        _command.ExitCodes[exitCode] = description;
+    }
+
     public void SetDefaultCommand<TDefaultCommand>()
         where TDefaultCommand : class, ICommandLimiter<TSettings>
     {

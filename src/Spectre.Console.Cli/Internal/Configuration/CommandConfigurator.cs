@@ -38,4 +38,10 @@ internal sealed class CommandConfigurator : ICommandConfigurator
         _command.IsHidden = true;
         return this;
     }
+
+    public ICommandConfigurator WithExitCode(int exitCode, string description)
+    {
+        _command.ExitCodes[exitCode] = description;
+        return this;
+    }
 }

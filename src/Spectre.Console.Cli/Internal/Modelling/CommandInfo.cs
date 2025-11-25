@@ -3,29 +3,48 @@ namespace Spectre.Console.Cli;
 internal sealed class CommandInfo : ICommandContainer, ICommandInfo
 {
     public string Name { get; }
+
     public HashSet<string> Aliases { get; }
+
     public string? Description { get; }
+
     public object? Data { get; }
+
     public Type? CommandType { get; }
+
     public Type SettingsType { get; }
+
     public Func<CommandContext, CommandSettings, CancellationToken, Task<int>>? Delegate { get; }
+
     public bool IsDefaultCommand { get; }
+
     public CommandInfo? Parent { get; }
+
     public IList<CommandInfo> Children { get; }
+
     public IList<CommandParameter> Parameters { get; }
+
     public IList<string[]> Examples { get; }
 
+    public IDictionary<int, string> ExitCodes { get; }
+
     public bool IsBranch => CommandType == null && Delegate == null;
+
     IList<CommandInfo> ICommandContainer.Commands => Children;
 
     // only branches can have a default command
     public CommandInfo? DefaultCommand => IsBranch ? Children.FirstOrDefault(c => c.IsDefaultCommand) : null;
+
     public bool IsHidden { get; }
 
     IReadOnlyList<ICommandInfo> Help.ICommandContainer.Commands => Children.Cast<ICommandInfo>().ToList();
+
     ICommandInfo? Help.ICommandContainer.DefaultCommand => DefaultCommand;
+
     IReadOnlyList<ICommandParameter> ICommandInfo.Parameters => Parameters.Cast<ICommandParameter>().ToList();
+
     ICommandInfo? ICommandInfo.Parent => Parent;
+
     IReadOnlyList<string[]> Help.ICommandContainer.Examples => (IReadOnlyList<string[]>)Examples;
 
     public CommandInfo(CommandInfo? parent, ConfiguredCommand prototype)
@@ -45,6 +64,7 @@ internal sealed class CommandInfo : ICommandContainer, ICommandInfo
         Children = new List<CommandInfo>();
         Parameters = new List<CommandParameter>();
         Examples = prototype.Examples;
+        ExitCodes = prototype.ExitCodes;
 
         if (CommandType != null && string.IsNullOrWhiteSpace(Description))
         {

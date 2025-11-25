@@ -40,4 +40,12 @@ public interface ICommandConfigurator
     /// </summary>
     /// <returns>The same <see cref="ICommandConfigurator"/> instance so that multiple calls can be chained.</returns>
     ICommandConfigurator IsHidden();
+
+    /// <summary>
+    /// Adds an exit code description to the command.
+    /// </summary>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="description">Description of the exit code.</param>
+    /// <returns>The same <see cref="ICommandConfigurator"/> instance so that multiple calls can be chained.</returns>
+    ICommandConfigurator WithExitCode(int exitCode, string description);
 }

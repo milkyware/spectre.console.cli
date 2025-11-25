@@ -6,7 +6,9 @@ internal static class CommandModelBuilder
     private sealed class OrderedProperties
     {
         public int Level { get; }
+
         public int SortOrder { get; }
+
         public PropertyInfo[] Properties { get; }
 
         public OrderedProperties(int level, int sortOrder, PropertyInfo[] properties)
@@ -29,6 +31,12 @@ internal static class CommandModelBuilder
         {
             // Add the examples from the configuration to the default command.
             configuration.DefaultCommand.Examples.AddRange(configuration.Examples);
+
+            // Add exit codes from the configuration to the default command.
+            foreach (var e in configuration.DefaultCommand.ExitCodes)
+            {
+                configuration.DefaultCommand.ExitCodes.Add(e);
+            }
 
             // Build the default command.
             var defaultCommand = Build(null, configuration.DefaultCommand);

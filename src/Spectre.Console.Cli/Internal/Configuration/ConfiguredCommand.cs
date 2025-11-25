@@ -3,17 +3,28 @@ namespace Spectre.Console.Cli;
 internal sealed class ConfiguredCommand
 {
     public string Name { get; }
+
     public HashSet<string> Aliases { get; }
+
     public string? Description { get; set; }
+
     public object? Data { get; set; }
+
     public Type? CommandType { get; }
+
     public Type SettingsType { get; }
+
     public Func<CommandContext, CommandSettings, CancellationToken, Task<int>>? Delegate { get; }
+
     public bool IsDefaultCommand { get; }
+
     public bool IsHidden { get; set; }
 
     public IList<ConfiguredCommand> Children { get; }
+
     public IList<string[]> Examples { get; }
+
+    public IDictionary<int, string> ExitCodes { get; }
 
     private ConfiguredCommand(
         string name,
@@ -34,6 +45,7 @@ internal sealed class ConfiguredCommand
 
         Children = new List<ConfiguredCommand>();
         Examples = new List<string[]>();
+        ExitCodes = new Dictionary<int, string>();
     }
 
     public static ConfiguredCommand FromBranch(Type settings, string name)
