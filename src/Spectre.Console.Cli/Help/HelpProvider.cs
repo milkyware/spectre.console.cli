@@ -381,6 +381,12 @@ public class HelpProvider : IHelpProvider
         return Array.Empty<IRenderable>();
     }
 
+    /// <summary>
+    /// Get the exit codes section of the help information.
+    /// </summary>
+    /// <param name="model">The command model to write help for.</param>
+    /// <param name="command">The command for which to write help information (optional).</param>
+    /// <returns>An enumerable collection of <see cref="IRenderable"/> objects.</returns>
     public virtual IEnumerable<IRenderable> GetExitCodes(ICommandModel model, ICommandInfo? command)
     {
         var exitCodes = command?.ExitCodes;
