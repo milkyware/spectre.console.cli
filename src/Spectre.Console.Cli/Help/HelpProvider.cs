@@ -390,7 +390,7 @@ public class HelpProvider : IHelpProvider
     public virtual IEnumerable<IRenderable> GetExitCodes(ICommandModel model, ICommandInfo? command)
     {
         var exitCodes = command?.ExitCodes;
-        if (exitCodes!.Any())
+        if (exitCodes?.Any() != true)
             return Enumerable.Empty<IRenderable>();
 
         var result = new List<IRenderable>();
