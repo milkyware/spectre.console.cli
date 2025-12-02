@@ -1,3 +1,4 @@
+using Spectre.Console.Cli;
 using Spectre.Console.Cli.Tests.Data.Help;
 
 namespace Spectre.Console.Tests.Unit.Cli;
@@ -969,15 +970,37 @@ public sealed partial class CommandAppTests
 
         [Fact]
         [Expectation("Default_ExitCodes")]
-        public Task Should_Output_Exit_Codes_Defined_On_Root()
+        public Task Should_Output_Exit_Codes_Defined_On_Root_If_Default_Command_Is_Specified()
         {
             // Given
             var fixture = new CommandAppTester();
             fixture.SetDefaultCommand<DogCommand>();
             fixture.Configure(configurator =>
             {
+                configurator.SetApplicationName("myapp")
+                    .AddExitCode(0, "Command completed successfully")
+                    .AddExitCode(1, "An error occurred while executing the command")
+                    .AddExitCode(2, "Invalid command line arguments were provided");
+            });
+            // When
+            var result = fixture.Run("--help");
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
+        [Expectation("Root_ExitCodes")]
+        public Task Should_Output_Exit_Codes_Defined_On_Root()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
                 configurator.SetApplicationName("myapp");
-                // All root exit codes should be shown
+                configurator.AddCommand<DogCommand>("dog")
+                    .WithExitCode(0, "Command completed successfully")
+                    .WithExitCode(1, "An error occurred while executing the command")
+                    .WithExitCode(2, "Invalid command line arguments were provided");
             });
             // When
             var result = fixture.Run("--help");
