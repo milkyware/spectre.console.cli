@@ -41,7 +41,7 @@ internal sealed class CommandConfigurator : ICommandConfigurator
 
     public ICommandConfigurator WithExitCode(int exitCode, string description)
     {
-        _command.ExitCodes[exitCode] = description;
+        _command.ExitCodes.Add((exitCode, description));
         return this;
     }
 }

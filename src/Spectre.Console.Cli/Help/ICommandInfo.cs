@@ -43,5 +43,5 @@ public interface ICommandInfo : ICommandContainer
     /// <summary>
     /// Gets the exit codes associated with the command.
     /// </summary>
-    IDictionary<int, string> ExitCodes { get; }
+    IList<(int Code, string Description)> ExitCodes { get; }
 }

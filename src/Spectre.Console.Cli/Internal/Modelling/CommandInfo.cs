@@ -26,7 +26,7 @@ internal sealed class CommandInfo : ICommandContainer, ICommandInfo
 
     public IList<string[]> Examples { get; }
 
-    public IDictionary<int, string> ExitCodes { get; }
+    public IList<(int Code, string Description)> ExitCodes { get; }
 
     public bool IsBranch => CommandType == null && Delegate == null;
 

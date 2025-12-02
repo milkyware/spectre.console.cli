@@ -70,4 +70,5 @@ public interface IConfigurator
     /// <returns>A branch configurator that can be used to configure the branch further.</returns>
     IBranchConfigurator AddBranch<TSettings>(string name, Action<IConfigurator<TSettings>> action)
         where TSettings : CommandSettings;
+    IConfigurator AddExitCode(int exitCode, string description);
 }
