@@ -24,7 +24,7 @@ internal sealed class ConfiguredCommand
 
     public IList<string[]> Examples { get; }
 
-    public IList<(int Code, string Description)> ExitCodes { get; }
+    public IDictionary<int, string> ExitCodes { get; }
 
     private ConfiguredCommand(
         string name,
@@ -45,7 +45,7 @@ internal sealed class ConfiguredCommand
 
         Children = new List<ConfiguredCommand>();
         Examples = new List<string[]>();
-        ExitCodes = [];
+        ExitCodes = new Dictionary<int, string>();
     }
 
     public static ConfiguredCommand FromBranch(Type settings, string name)

@@ -9,7 +9,7 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
     public ConfiguredCommand? DefaultCommand { get; private set; }
     public IList<string[]> Examples { get; }
 
-    IList<(int ExitCode, string Description)> ExitCodes { get; }
+    IDictionary<int, string> ExitCodes { get; }
 
     ICommandAppSettings IConfigurator.Settings => Settings;
 
@@ -20,7 +20,7 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
         Commands = new List<ConfiguredCommand>();
         Settings = new CommandAppSettings(registrar);
         Examples = new List<string[]>();
-        ExitCodes = [];
+        ExitCodes = new Dictionary<int, string>();
     }
 
     public IConfigurator SetHelpProvider(IHelpProvider helpProvider)
@@ -46,7 +46,7 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
 
     public IConfigurator AddExitCode(int exitCode, string description)
     {
-        ExitCodes.Add((exitCode, description));
+        ExitCodes[exitCode] = description;
         return this;
     }
 

@@ -70,5 +70,12 @@ public interface IConfigurator
     /// <returns>A branch configurator that can be used to configure the branch further.</returns>
     IBranchConfigurator AddBranch<TSettings>(string name, Action<IConfigurator<TSettings>> action)
         where TSettings : CommandSettings;
+
+    /// <summary>
+    /// Add a known exit code to expect from the application.
+    /// </summary>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="description">Description of the exit code.</param>
+    /// <returns>A branch configurator that can be used to configure the branch further.</returns>
     IConfigurator AddExitCode(int exitCode, string description);
 }
