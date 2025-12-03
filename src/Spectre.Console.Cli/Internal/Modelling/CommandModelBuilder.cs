@@ -33,9 +33,9 @@ internal static class CommandModelBuilder
             configuration.DefaultCommand.Examples.AddRange(configuration.Examples);
 
             // Add exit codes from the configuration to the default command.
-            foreach (var e in configuration.DefaultCommand.ExitCodes)
+            foreach (var kvp in configuration.ExitCodes)
             {
-                configuration.DefaultCommand.ExitCodes.Add(e);
+                configuration.DefaultCommand.ExitCodes[kvp.Key] = kvp.Value;
             }
 
             // Build the default command.

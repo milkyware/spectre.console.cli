@@ -406,7 +406,7 @@ public class HelpProvider : IHelpProvider
         foreach (var exitCode in exitCodes)
         {
             grid.AddRow(
-                NewComposer().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"<{exitCode.Key}>"),
+                NewComposer().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"{exitCode.Key}"),
                 NewComposer().Text(NormalizeDescription(exitCode.Value)));
         }
 

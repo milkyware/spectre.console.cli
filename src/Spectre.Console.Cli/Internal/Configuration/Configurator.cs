@@ -9,7 +9,7 @@ internal sealed class Configurator : IUnsafeConfigurator, IConfigurator, IConfig
     public ConfiguredCommand? DefaultCommand { get; private set; }
     public IList<string[]> Examples { get; }
 
-    IDictionary<int, string> ExitCodes { get; }
+    public IDictionary<int, string> ExitCodes { get; }
 
     ICommandAppSettings IConfigurator.Settings => Settings;
 

@@ -24,4 +24,6 @@ internal interface IConfiguration
     /// Gets all examples for the configuration.
     /// </summary>
     IList<string[]> Examples { get; }
+
+    IDictionary<int, string> ExitCodes { get; }
 }
