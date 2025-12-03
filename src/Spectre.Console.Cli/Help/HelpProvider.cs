@@ -167,11 +167,11 @@ public class HelpProvider : IHelpProvider
         result.AddRange(GetHeader(model, command));
         result.AddRange(GetDescription(model, command));
         result.AddRange(GetUsage(model, command));
-        result.AddRange(GetExitCodes(model, command));
         result.AddRange(GetExamples(model, command));
         result.AddRange(GetArguments(model, command));
         result.AddRange(GetOptions(model, command));
         result.AddRange(GetCommands(model, command));
+        result.AddRange(GetExitCodes(model, command));
         result.AddRange(GetFooter(model, command));
 
         return result;
@@ -393,11 +393,13 @@ public class HelpProvider : IHelpProvider
         if (exitCodes?.Any() != true)
             return Enumerable.Empty<IRenderable>();
 
-        var result = new List<IRenderable>();
+        var result = new List<IRenderable>
         {
-            NewComposer().LineBreak().Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"{_resources.ExitCodes}:")
-                .LineBreak();
-        }
+            NewComposer()
+                .LineBreak()
+                .Style(_helpStyles?.ExitCodes?.Header ?? Style.Plain, $"{_resources.ExitCodes}:")
+                .LineBreak()
+        };
 
         var grid = new Grid();
         grid.AddColumn(new GridColumn { Padding = new Padding(4, 4), NoWrap = true });
