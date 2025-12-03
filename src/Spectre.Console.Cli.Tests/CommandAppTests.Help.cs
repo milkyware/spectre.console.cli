@@ -989,7 +989,27 @@ public sealed partial class CommandAppTests
         }
 
         [Fact]
-        [Expectation("Root_ExitCodes")]
+        [Expectation("Command_ExitCodes")]
+        public Task Should_Output_Exit_Codes_Defined_On_Command()
+        {
+            // Given
+            var fixture = new CommandAppTester();
+            fixture.Configure(configurator =>
+            {
+                configurator.SetApplicationName("myapp");
+                configurator.AddCommand<DogCommand>("dog")
+                    .WithExitCode(0, "Command completed successfully")
+                    .WithExitCode(1, "An error occurred while executing the command")
+                    .WithExitCode(2, "Invalid command line arguments were provided");
+            });
+            // When
+            var result = fixture.Run("dog", "--help");
+            // Then
+            return Verifier.Verify(result.Output);
+        }
+
+        [Fact]
+        [Expectation("Root_ExitCodes_Children")]
         public Task Should_Output_Exit_Codes_Defined_On_Root()
         {
             // Given
@@ -1003,7 +1023,7 @@ public sealed partial class CommandAppTests
                     .WithExitCode(2, "Invalid command line arguments were provided");
             });
             // When
-            var result = fixture.Run("--help");
+            var result = fixture.Run("dog", "--help");
             // Then
             return Verifier.Verify(result.Output);
         }
