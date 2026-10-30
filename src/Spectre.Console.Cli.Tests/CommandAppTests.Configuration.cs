@@ -103,8 +103,9 @@ public sealed partial class CommandAppTests
             var result = fixture.Run("dog", "--help");
 
             // Then
-            result.Output.ShouldContain("0    Command completed successfully");
-            result.Output.ShouldContain("2    Dog validation failed");
+            var lines = result.Output.ReplaceLineEndings("\n").Split('\n');
+            lines.ShouldContain("    0    Command completed successfully");
+            lines.ShouldContain("    2    Dog validation failed");
         }
 
         [Fact]
