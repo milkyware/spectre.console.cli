@@ -27,7 +27,7 @@ internal sealed class CommandModel : ICommandContainer, ICommandModel
         ParsingMode = settings.ParsingMode;
         Commands = new List<CommandInfo>(commands);
         Examples = new List<string[]>(examples);
-        ExitCodes = ExitCodeHelpers.Merge(null, exitCodes);
+        ExitCodes = exitCodes.ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     /// <summary>

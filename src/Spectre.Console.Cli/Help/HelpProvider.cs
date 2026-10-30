@@ -539,14 +539,12 @@ public class HelpProvider : IHelpProvider
     /// <param name="command">The command for which to write help information (optional).</param>
     /// <returns>An enumerable collection of <see cref="IRenderable"/> objects.</returns>
     /// <remarks>
-    /// The exit codes of the command are combined with the globally defined exit codes.
-    /// Command-scoped descriptions take precedence over global ones.
-    /// This is a help-specific aggregated view; generated models retain separate global
-    /// and command-specific exit codes.
+    /// Combines globally defined exit codes with those defined on the command.
+    /// Command-scoped descriptions take precedence over global ones for duplicate codes.
     /// </remarks>
     public virtual IEnumerable<IRenderable> GetExitCodes(ICommandModel model, ICommandInfo? command)
     {
-        var exitCodes = ExitCodeHelpers.Merge(model.ExitCodes, command?.ExitCodes);
+        var exitCodes = MergeExitCodes(model.ExitCodes, command?.ExitCodes);
         if (exitCodes.Count == 0)
         {
             return Array.Empty<IRenderable>();
@@ -574,6 +572,29 @@ public class HelpProvider : IHelpProvider
         result.Add(grid);
 
         return result;
+    }
+
+    private static IReadOnlyDictionary<int, string> MergeExitCodes(
+        IReadOnlyDictionary<int, string>? global,
+        IReadOnlyDictionary<int, string>? command)
+    {
+        var result = new SortedDictionary<int, string>();
+        Add(result, global);
+        Add(result, command);
+        return result;
+
+        static void Add(SortedDictionary<int, string> target, IReadOnlyDictionary<int, string>? source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            foreach (var pair in source)
+            {
+                target[pair.Key] = pair.Value;
+            }
+        }
     }
 
     /// <summary>
