@@ -33,4 +33,25 @@ public sealed class DefaultCommandConfigurator
         _defaultCommand.Data = data;
         return this;
     }
+
+    /// <summary>
+    /// Adds an exit code that can be returned by the default command.
+    /// </summary>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="description">The description of the exit code.</param>
+    /// <returns>The same <see cref="DefaultCommandConfigurator"/> instance so that multiple calls can be chained.</returns>
+    /// <remarks>
+    /// This documents the exit code in the help output and generated models.
+    /// It does not validate the value returned by the default command.
+    /// Descriptions are trimmed before being stored.
+    /// Help output combines global and default command exit codes, with the default command's
+    /// description taking precedence for duplicate codes. Generated models keep the global and
+    /// default command exit codes separate.
+    /// </remarks>
+    public DefaultCommandConfigurator WithExitCode(int exitCode, string description)
+    {
+        var normalized = ExitCodeValidation.ValidateAndNormalize(exitCode, description, _defaultCommand.ExitCodes, _defaultCommand.Name, isDefaultCommand: true);
+        _defaultCommand.ExitCodes.Add(exitCode, normalized);
+        return this;
+    }
 }

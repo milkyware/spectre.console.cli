@@ -70,4 +70,20 @@ public interface IConfigurator
     /// <returns>A branch configurator that can be used to configure the branch further.</returns>
     IBranchConfigurator AddBranch<TSettings>(string name, Action<IConfigurator<TSettings>> action)
         where TSettings : CommandSettings;
+
+    /// <summary>
+    /// Adds an exit code that can be returned by the application.
+    /// </summary>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="description">The description of the exit code.</param>
+    /// <returns>A configurator that can be used for further configuration.</returns>
+    /// <remarks>
+    /// This documents the exit code in the help output and generated models.
+    /// It does not validate the value returned by a command.
+    /// Descriptions are trimmed before being stored.
+    /// Help output combines global and command-specific exit codes, with command-specific
+    /// descriptions taking precedence for duplicate codes. Generated models keep the
+    /// global and command-specific exit codes separate.
+    /// </remarks>
+    IConfigurator AddExitCode(int exitCode, string description);
 }
