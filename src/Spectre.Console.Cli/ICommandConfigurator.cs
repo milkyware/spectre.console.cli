@@ -48,12 +48,10 @@ public interface ICommandConfigurator
     /// <param name="description">The description of the exit code.</param>
     /// <returns>The same <see cref="ICommandConfigurator"/> instance so that multiple calls can be chained.</returns>
     /// <remarks>
-    /// This documents the exit code in the help output and generated models.
-    /// It does not validate the value returned by the command.
+    /// This documents the exit code in help output. It does not validate the value returned by the command.
     /// Descriptions are trimmed before being stored.
-    /// Help output combines global and command-specific exit codes, with this command's
-    /// description taking precedence for duplicate codes. Generated models keep the
-    /// global and command-specific exit codes separate.
+    /// Help combines global and command-specific exit codes; this command's description
+    /// takes precedence for duplicate codes.
     /// </remarks>
     ICommandConfigurator WithExitCode(int exitCode, string description);
 }

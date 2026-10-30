@@ -41,12 +41,10 @@ public sealed class DefaultCommandConfigurator
     /// <param name="description">The description of the exit code.</param>
     /// <returns>The same <see cref="DefaultCommandConfigurator"/> instance so that multiple calls can be chained.</returns>
     /// <remarks>
-    /// This documents the exit code in the help output and generated models.
-    /// It does not validate the value returned by the default command.
+    /// This documents the exit code in help output. It does not validate the value returned by the default command.
     /// Descriptions are trimmed before being stored.
-    /// Help output combines global and default command exit codes, with the default command's
-    /// description taking precedence for duplicate codes. Generated models keep the global and
-    /// default command exit codes separate.
+    /// Help combines global and default command exit codes; the default command's description
+    /// takes precedence for duplicate codes.
     /// </remarks>
     public DefaultCommandConfigurator WithExitCode(int exitCode, string description)
     {
